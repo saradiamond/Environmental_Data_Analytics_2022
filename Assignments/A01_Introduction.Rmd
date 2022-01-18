@@ -1,6 +1,6 @@
 ---
 title: "Assignment 1: Introduction"
-author: "Student Name"
+author: "Sara Diamond"
 output: pdf_document
 geometry: margin=2.54cm
 ---
@@ -24,14 +24,19 @@ The completed exercise is due on <>.
 
 > Answer: 
 
+I used R last semester in ENV790 with John Poulsen. Before that class, I was briefly introduced to R in my senior thesis project in college. Outside of those two classes, I have not experimented with R. This class is the first time I have heard of and used Git.
+
 2. Are there any components of the course about which you feel confident?
 
 > Answer: 
+
+I feel like I know the basics of R and statistical analyses. I understand what a lot of the functions mean and the correct way to write them in R. Most of what we did in 790 was statistics related so I feel I have a pretty strong grasp on those concepts and feel confident to execute them in R.
 
 3. Are there any components of the course about which you feel apprehensive?
 
 > Answer: 
 
+Generally, R can be frustrating so I am nervous about the new things I will learn this semester. A lot of times when I was using R previously I forgot small things that caused various errors when I ran the code and having to figure out where the mistake was or what I was missing could be tedious and cause frustration. However, I surprised myself in how much I ended up loving working in R and was excited about the challenge of it, so I think it will be great to continue to sharpen my R skills this semester.
 
 ## 2) GitHub
 
@@ -39,4 +44,5 @@ Provide a link below to your forked course repository in GitHub. Make sure you h
 
 > Answer: 
 
+https://github.com/saradiamond/Environmental_Data_Analytics_2022
 
