@@ -38,27 +38,27 @@ Often, we will want to change multiple visual aspects of a plot. Ggplot comes wi
 ```{r, fig.height = 3, fig.width = 4, warning = FALSE}
 O3plot <- ggplot(EPAair) +
   geom_point(aes(x = Date, y = Ozone)) 
-print(O3plot)
+print(O3plot) #default background
 
 O3plot1 <- ggplot(EPAair) +
   geom_point(aes(x = Date, y = Ozone)) +
   theme_gray()
-print(O3plot1)
+print(O3plot1) #using the default also 
 
 O3plot2 <- ggplot(EPAair) +
   geom_point(aes(x = Date, y = Ozone)) +
-  theme_bw()
+  theme_bw() #black and white
 print(O3plot2)
 
 O3plot3 <- ggplot(EPAair) +
   geom_point(aes(x = Date, y = Ozone)) +
-  theme_light()
+  theme_light() #grey lines
 print(O3plot3)
 
 O3plot4 <- ggplot(EPAair) +
   geom_point(aes(x = Date, y = Ozone)) +
   theme_classic()
-print(O3plot4)
+print(O3plot4) #no gridlines 
 ```
 
 Notice that some aspects of your graph have not been adjusted, including: 
@@ -73,7 +73,7 @@ If you would like to set a common theme across all plots in your analysis sessio
 mytheme <- theme_classic(base_size = 14) +
   theme(axis.text = element_text(color = "black"), 
         legend.position = "top") #alternative: legend.position + legend.justification
-
+#defining our own theme based on classic one, increase the font, change text elements, color - black, changing the legend position
 # options: call the theme in each plot or set the theme at the start. 
 
 O3plot5 <- ggplot(EPAair) +
@@ -81,7 +81,7 @@ O3plot5 <- ggplot(EPAair) +
   mytheme
 print(O3plot5)  
 
-theme_set(mytheme)
+theme_set(mytheme) #defining theme from now own
 
 O3plot6 <- ggplot(EPAair) +
   geom_point(aes(x = Date, y = Ozone))
@@ -162,7 +162,7 @@ library(colormap)
 scales::show_col(colormap(colormap = colormaps$viridis, nshades = 16))
 scales::show_col(colormap(colormap = colormaps$inferno, nshades = 16))
 scales::show_col(colormap(colormap = colormaps$magma, nshades = 16))
-display.brewer.all(n = 9)
+display.brewer.all(n = 9) #all the palettle names
 
 NvsP <-
   ggplot(PeterPaul.chem.nutrients, aes(x = tp_ug, y = tn_ug, color = depth, shape = lakename)) +
@@ -175,7 +175,7 @@ print(NvsP)
 NvsP2 <-
   ggplot(PeterPaul.chem.nutrients, aes(x = tp_ug, y = tn_ug, color = depth, shape = lakename)) +
   geom_point(alpha = 0.7, size = 2.5) +
-  #labs() + # change your legend labels here
+  labs(color = "Depth", shape = "Lake Name") + # change your legend labels here
   scale_shape_manual(values = c(15, 17)) +
   #scale_color_distiller(palette = "Blues", direction = 1) + # use scale_color_brewer for discrete variables
   scale_color_viridis(option = "magma", direction = -1) +

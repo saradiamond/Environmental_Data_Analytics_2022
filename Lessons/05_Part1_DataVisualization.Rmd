@@ -79,16 +79,16 @@ Here are some commonly used aesthetic types that can be manipulated in ggplot:
 ```{r, fig.height = 3, fig.width = 4, warning = FALSE}
 # Scatterplot
 ggplot(EPAair, aes(x = Date, y = Ozone)) + 
-  geom_point()
+  geom_point() #to get a point
 
 O3plot <- ggplot(EPAair) +
-  geom_point(aes(x = Date, y = Ozone))
-print(O3plot)
+  geom_point(aes(x = Date, y = Ozone)) #aes can be on the first line or seconf
+print(O3plot) #good if you want more than one plot
 
 # Fix this code
 O3plot2 <- ggplot(EPAair) +
   #geom_point(aes(x = Date, y = Ozone, color = "blue"))
-  geom_point(aes(x = Date, y = Ozone), color = "blue")
+  geom_point(aes(x = Date, y = Ozone), color = "blue") #color has to be outside aes command
 print(O3plot2)
 
 # Add additional variables
@@ -96,22 +96,23 @@ print(O3plot2)
 PMplot <- 
   ggplot(EPAair, aes(x = Month, y = PM2.5, shape = as.factor(Year), color = Site.Name)) +
   geom_point()
-print(PMplot)
+print(PMplot) #specfied shape according to each year, colors according to site (defaults)
 
 # Separate plot with facets
 PMplot.faceted <-
   ggplot(EPAair, aes(x = Month, y = PM2.5, shape = as.factor(Year))) +
   geom_point() +
-  facet_wrap(vars(Site.Name), nrow = 3)
+  facet_wrap(vars(Site.Name), nrow = 3) #removed color but the facet wrap will be based on the site name (now you will see a different graph for each site instead of diff color)
 print(PMplot.faceted)
 
-# Filter dataset within plot building and facet by multiple variables
+# Filter dataset within plot building and facet by multiple variables 
+#just want to see some sites not all by using subset function
 PMplot.faceted2 <- 
   ggplot(subset(EPAair, Site.Name == "Clemmons Middle" | Site.Name == "Leggett" |
                   Site.Name == "Bryson City"), 
          aes(x = Month, y = PM2.5)) + 
   geom_point() +
-  facet_grid(Site.Name ~ Year) 
+  facet_grid(Site.Name ~ Year) #showing the three sites in each of the two years 
 print(PMplot.faceted2)
 
 # Plot true time series with geom_line
@@ -119,7 +120,7 @@ PMplot.line <-
   ggplot(subset(EPAair, Site.Name == "Leggett"), 
          aes(x = Date, y = PM2.5)) +
   geom_line()
-print(PMplot.line)
+print(PMplot.line) #using line to show time series have to change x to dates so they connect
 
 
 ```
@@ -132,14 +133,15 @@ print(PMplot.line)
 lightvsDO <- 
   ggplot(PeterPaul.chem.nutrients, aes(x = irradianceWater, y = dissolvedOxygen)) +
   geom_point()
-print(lightvsDO)
+print(lightvsDO) #visualizing relationships between variables
+#doesnt look good 
 
 # Adjust axes
 lightvsDOfixed <- 
   ggplot(PeterPaul.chem.nutrients, aes(x = irradianceWater, y = dissolvedOxygen)) +
   geom_point() +
   xlim(0, 250) +
-  ylim(0, 20)
+  ylim(0, 20) #adjust y and x to zoom in where the points are most concentrated
 print(lightvsDOfixed)
 
 # Depth in the fields of limnology and oceanography is on a reverse scale
@@ -147,14 +149,14 @@ tempvsdepth <-
   ggplot(PeterPaul.chem.nutrients, aes(x = temperature_C, y = depth)) +
   #ggplot(PeterPaul.chem.nutrients, aes(x = temperature_C, y = depth, color = daynum)) +
   geom_point() +
-  scale_y_reverse()
+  scale_y_reverse() #reverse bc depth starts at 0 and goes deep down further
 print(tempvsdepth)
 
 NvsP <-
   ggplot(PeterPaul.chem.nutrients, aes(x = tp_ug, y = tn_ug, color = depth)) +
   geom_point() +
-  geom_smooth(method = lm) +
-  geom_abline(aes(slope = 16, intercept = 0))
+  geom_smooth(method = lm) + #finding the trend line for lm 
+  geom_abline(aes(slope = 16, intercept = 0)) 
 print(NvsP)
 
 ```
@@ -168,8 +170,9 @@ What might be more effective ways to display the information? Navigate to the bo
 # Box and whiskers plot
 Nutrientplot3 <-
   ggplot(PeterPaul.chem.nutrients.gathered, aes(x = lakename, y = concentration)) +
-  geom_boxplot(aes(color = nutrient)) # Why didn't we use "fill"?
-print(Nutrientplot3)
+  geom_boxplot(aes(color = nutrient)) # Why didn't we use "fill"? #color is characterized by nutrient 
+#
+print(Nutrientplot3) #use color on boxplots instead of fill
 
 # Dot plot
 Nutrientplot4 <-
@@ -178,14 +181,17 @@ Nutrientplot4 <-
                stackdir = "center", position = "dodge", dotsize = 2) #
 print(Nutrientplot4)
 
+#filling the contour of dots and colors binaxis =y means youre stacking observations over y, binwidth changes width, stackdir = how are we stacking the point, dodge means no overlaying of the dots
+
 # Violin plot
 Nutrientplot5 <-
   ggplot(PeterPaul.chem.nutrients.gathered, aes(x = lakename, y = concentration)) +
   geom_violin(aes(color = nutrient)) #
-print(Nutrientplot5)
+print(Nutrientplot5) #density plot
 
 # Frequency polygons
 # Using a tidy dataset
+#theres no legend which isnt good
 Nutrientplot6 <-
   ggplot(PeterPaul.chem.nutrients) +
   geom_freqpoly(aes(x = tn_ug), color = "darkred") +
@@ -195,7 +201,8 @@ Nutrientplot6 <-
   geom_freqpoly(aes(x = po4), color = "red") 
 print(Nutrientplot6)
 
-# Using a gathered dataset
+# Using a gathered dataset 
+#this is the easier way to do plot above
 Nutrientplot7 <-   
   ggplot(PeterPaul.chem.nutrients.gathered) +
   geom_freqpoly(aes(x = concentration, color = nutrient))
@@ -208,7 +215,7 @@ print(Nutrientplot7)
 Nutrientplot6 <-
   ggplot(PeterPaul.chem.nutrients.gathered, aes(y = nutrient, x = concentration)) +
   geom_density_ridges(aes(fill = lakename), alpha = 0.5) #
-print(Nutrientplot6)
+print(Nutrientplot6) #filling so you have diff colors for each lake
 
 
 ```
