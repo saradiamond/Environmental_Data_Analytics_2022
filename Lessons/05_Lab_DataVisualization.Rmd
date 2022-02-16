@@ -95,7 +95,9 @@ Exercise: Plot relationships between air quality measurements
 # Make the points 50 % transparent
 # Add a line of best fit for the linear regression of these variables.
 
-
+ggplot(EPAair, aes(x = PM2.5, y = Ozone, color = meanLat), alpha = 0.5) +
+  geom_point() +
+  geom_smooth(method = lm)
 
 
 ```
