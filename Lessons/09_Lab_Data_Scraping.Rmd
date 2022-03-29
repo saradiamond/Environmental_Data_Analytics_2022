@@ -103,6 +103,7 @@ ggplot(gage_data,aes(x=datetime,y=discharge_cfs)) +
 
 ### Exercise: 
 > Alter the above code so that it plots the last 24 days of flow for gage 02085070
+
 ```{r}
 
 #Set the URL
@@ -256,7 +257,7 @@ scrape.it <- function(the_year){
 
   #Fetch the website
   #<enter code from above here> 
-  the_website
+  the_website <- read_html(the_url)
   
   #Scrape the data
   #<enter code from above here>

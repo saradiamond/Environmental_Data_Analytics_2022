@@ -263,8 +263,8 @@ view(the_df)
 R can iterate using either "lapply" or Purrrs' "map" functions. 
 ```{r scrape.multiple.years.of.data}
 #Set the inputs to scrape years 2015 to 2020 for the site "0004-0001"
-the_years = rep(2018:2020)
-my_facility = '0004-0001'
+the_year = rep(2015:2020)
+pwsid_code = '0004-0001'
 
 #Use lapply to apply the scrape function
 the_dfs <- lapply(X = the_years,
