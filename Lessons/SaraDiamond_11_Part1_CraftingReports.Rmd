@@ -78,13 +78,19 @@ Create a table below that details the example datasets we have been using in cla
 ```{r making tables}
 
 
-dataset.name <- c("EPA Air", "NEON NWIO Litter", "NTL LTER Lake Chem", "NTL LTER Lake Nutrients", "Ozone", "Wind Speed")
+dataset.name <- c("EPA Air", "NEON NWIO Litter", 
+                  "NTL LTER Lake Chem", "NTL LTER Lake Nutrients", 
+                  "Ozone", "Wind Speed")
 
-dataset.info <- c("PM25 and O3 information", "different litter information", "lake chemistry info", "lake nutrients info", "time series ozone", "data regarding wind speeds")
+dataset.info <- c("PM25 and O3 information", 
+                  "different litter information", 
+                  "lake chemistry info", "lake nutrients info", 
+                  "time series ozone", "data regarding wind speeds")
 
 dataframe <- data.frame(dataset.name, dataset.info)
 
-knitr::kable(dataframe, caption = "Table with Datasets and Information", col.names = c("Datasets", "Information"))
+knitr::kable(dataframe, caption = "Table with Datasets and Information", 
+             col.names = c("Datasets", "Information"))
 
 
 
@@ -162,13 +168,13 @@ Create an R chunk below to create a processed dataset do the following operation
 ```{r Data Exploration}
 
 #wrangling the data
-NTL.LTER.Wrangled <- 
+NTL.LTER.Processed <- 
   NTL.LTER.Nutrients %>%
-  select(lakename:sampledate, depth:po4) %>%
+  select(-c(lakeid, depth_id, comments)) %>%
   filter(depth == 0) %>%
     drop_na()
 #saving processed file
-write.csv(NTL.LTER.Wrangled, 
+write.csv(NTL.LTER.Processed, 
           row.names = FALSE, 
           file = "./Data/Processed/NTL-LTER_Processed.csv")
 ```
@@ -179,22 +185,20 @@ Create a second R chunk to create a summary dataset with the mean, minimum, maxi
 ```{r Wrangling, echo=FALSE}
 
 #total nitrogen dataset
-NTL.LTER.TotalNit <- NTL.LTER.Wrangled %>% 
-  select(lakename, tn_ug) %>% 
+NTL.LTER.TotalNit <- NTL.LTER.Processed %>% 
   group_by(lakename) %>% 
-  summarise(mean_tn = mean(NTL.LTER.Wrangled$tn_ug),
-            max_tn = max(NTL.LTER.Wrangled$tn_ug),
-            min_tn = min(NTL.LTER.Wrangled$tn_ug),
-            sd_tn = sd(NTL.LTER.Wrangled$tn_ug))
+  summarise(mean_tn = mean(tn_ug),
+            max_tn = max(tn_ug),
+            min_tn = min(tn_ug),
+            sd_tn = sd(tn_ug))
 
 #total phosphorus dataset
-NTL.LTER.TotalPhos <- NTL.LTER.Wrangled %>% 
-  select(lakename, tp_ug) %>% 
+NTL.LTER.TotalPhos <- NTL.LTER.Processed%>% 
   group_by(lakename) %>% 
-  summarise(mean_tp = mean(NTL.LTER.Wrangled$tp_ug),
-            max_tp = max(NTL.LTER.Wrangled$tp_ug),
-            min_tp = min(NTL.LTER.Wrangled$tp_ug),
-            sd_tp = sd(NTL.LTER.Wrangled$tp_ug))
+  summarise(mean_tp = mean(tp_ug),
+            max_tp = max(tp_ug),
+            min_tp = min(tp_ug),
+            sd_tp = sd(tp_ug))
 ```
 
 
@@ -214,7 +218,8 @@ Create a fourth and fifth R chunk that generates two plots (one in each chunk): 
 
 ```{r Total Nitrogen, echo=FALSE, fig.align='left', fig.cap="Total Nitrogen Over Time for Each Lake"}
 #plot for total nitrogen
-ggplot(data = NTL.LTER.Wrangled, aes(x = sampledate, y = tn_ug, color = lakename)) +
+ggplot(data = NTL.LTER.Processed, aes(x = sampledate, 
+                                      y = tn_ug, color = lakename)) +
     geom_line() +
     scale_color_brewer(palette = "YlOrRd") +
     labs(title = "Total Nitrogen Over Time for Each Lake", 
@@ -229,7 +234,8 @@ ggplot(data = NTL.LTER.Wrangled, aes(x = sampledate, y = tn_ug, color = lakename
 ```{r Total Phosphorous, echo=FALSE, fig.align='left', fig.cap="Total Phosphorous Over Time for Each Lake"}
 
 #plot for total phosphorus
-ggplot(data = NTL.LTER.Wrangled, aes(x = sampledate, y = tp_ug, color = lakename)) +
+ggplot(data = NTL.LTER.Processed, aes(x = sampledate, 
+                                      y = tp_ug, color = lakename)) +
     geom_line() +
     scale_color_brewer(palette = "YlOrRd") +
     labs(title = "Total Phosphorous Over Time for Each Lake", 
@@ -238,13 +244,17 @@ ggplot(data = NTL.LTER.Wrangled, aes(x = sampledate, y = tp_ug, color = lakename
          color = "Lake Name")
 
 ```
-
+\newpage
 
 ### Communicating results
 
 Write a paragraph describing your findings from the R coding challenge above. This should be geared toward an educated audience but one that is not necessarily familiar with the dataset. Then insert a horizontal rule below the paragraph. Below the horizontal rule, write another paragraph describing the next steps you might take in analyzing this dataset. What questions might you be able to answer, and what analyses would you conduct to answer those questions?
 
+The data set we used in this analysis was looking at different lakes in the Northern Temperate Lakes District in Wisconsin, USA. The data we have looked at was collected by an ecological research station over time. Specifically, we were looking at the total amount of nitrogen and phosphorous nutrients within the various lakes. In our analysis we were able to determine different statistics (average, maximum, minimum, and standard deviation) for the two different nutrients and compare our findings of each. It was found that for total nitrogen, Hummingbird Lake had the highest amount out of all 8 lakes we were examining. Additionally, by looking at the plot of total nitrogen over time, we can see that many of the lakes fluctuated in their total nitrogen, but West Long Lake, Peter Lake and East Long Lake had much higher fluctuations in between 1996 and 1998. As for phosphorous, East Long Lake had the highest maximum, but Hummingbird Lake had the highest total average. When looking at the plot for total phosphorous over time it is clear that East Long Lake had the most variability but we would have to do further analysis to determine exactly why that is. 
 
+___
+
+In order to determine more information, we might want to look to see if other variables are causeing an increase or descrease in the total amount of nutrients over time. We could do this by running some simple linear models to see if any variables are dependent on the total amount of nitrogen or phosphorous. For example, we could look at depth to see if this played a role or we could look at the presence of other nutrients in the total nitrogen/phosphorous observed. By conducting these analyses we could accept or reject a hypothesis saying that the presence of another nutrient had an effect on the total nitrogen or phosphorous amount in each lake. 
 
 
 ## KNIT YOUR PDF

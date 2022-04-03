@@ -1,3 +1,14 @@
+---
+title: "app.rmd"
+author: "Sara Diamond"
+date: "4/3/2022"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+getwd()
+setwd("/Users/saradiamond/Documents/Environmental_Data_Analytics_2022")
+
 #### Load packages ----
 library(shiny)
 library(shinythemes)
@@ -112,3 +123,25 @@ shinyApp(ui = ui, server = server)
 #5. Analyze the code used for the renderTable function. 
     # Notice where each bit of code comes from in the UI and server. 
     # Note: renderTable doesn't work well with dates. "sampledate" appears as # of days since 1970.
+
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
